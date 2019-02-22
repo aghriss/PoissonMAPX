@@ -1,0 +1,440 @@
+ÉQUATIONS DÉRIGÉES PAR UN
+PROCESSUS DE POISSON\documentclass[a4paper,10pt]{article}
+
+\usepackage[a4paper,bindingoffset=0.25in,left=1in,right=1in,top=1in,bottom=1in,footskip=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[coverpage,fancysections]{polytechnique}
+
+
+\title{\'{E}quations d\'{e}rig\'{e}es par un processus de Poisson}
+\date{25 juin 2015}
+
+\begin{document}
+\begin{flushright}
+Ahmed FADILI \\
+ Ayoub GHRISS \\
+\end{flushright}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=Scilab,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple},
+  identifierstyle=\color{blue},
+  stringstyle=\color{red},
+}
+\lstset{style=customc}
+
+\maketitle
+\section[Processus de Poisson et processus de Poisson composés]{}
+\section*{Processus de Poisson et processus de Poisson composés}
+
+\subsection[Processus de Poisson]{Processus de Poisson}
+\textbf{T.1} On se donne $\lambda>0$ un param\`{e}tre constant et $(\tau_{n})_{n}$ une suite i.i.d de variables al\'{e}atoires de loi commune la loi exponentielle de param\`{e}tre $\lambda$. On construit la suite de v.a $(T_{n})_{n}$ d\'{e}finie par:
+
+$$
+\forall n \in \mathbb{N^{*}}, T_{n}=\sum_{i=1}^{n}{\tau_{i}}
+$$
+
+Montrons que $T_{n}$ suit une loi $\Gamma(n,\lambda)$
+
+Pour cela, on montre que pour $X_{1},X_{2}$ deux variables al\'{e}atoires ind\'{e}pendantes suivant, respectivement, des lois $\Gamma(\nu_{1},\lambda)$ et $\Gamma(\nu_{2},\lambda)$, la variable $(X_{1}+X_{2})$ suit une loi $\Gamma(\nu_{1}+\nu_{2},\lambda)$.
+Il est imm\'{e}diat que $f_{X_{1}+X_{2}}(x)=0$ pour tout x$\leqslant0$, et pour tout r\'{e}el $x>0$ on a : 
+
+$$
+f_{X_{1}+X_{2}}(x)=\int_{-\infty}^{+\infty}{f_{X_{1}}(t)f_{X_{2}}(x-t)}\mathrm{dt}=\frac{1}{\Gamma(\nu_{1})\Gamma(\nu_{2})}\mathrm{e}^{-{\lambda}x}\int_{0}^{x}{t^{\nu_{1}-1}(x-t)^{\nu_{2}-1}}\mathrm{dt}
+$$
+
+On effectue le changement de variable $ u=\frac{t}{x}$,
+$$
+f_{X_{1}+X_{2}}(x)=\frac{x^{\nu_{1}-1}x^{\nu_{2}-1}x\mathrm{e}^{-{\lambda}x}}{\Gamma(\nu_{1})\Gamma(\nu_{2})}\int_{0}^{1}{u^{\nu_{1}-1}(1-u)^{\nu_{2}-1}}\mathrm{du}
+$$
+
+$$
+=\frac{x^{\nu_{1}+\nu_{2}-1}\mathrm{e}^{-{\lambda}x}}{\Gamma(\nu_{1})\Gamma(\nu_{2})}\int_{0}^{1}{u^{\nu_{1}-1}(1-u)^{\nu_{2}-1}}\mathrm{du}
+$$
+
+L'int\'{e}grale est convergente par comparaison avec des int\'{e}grales de Riemann puisque $\nu_1>0$ et $\nu_2>0$. Alors, $f_{X_1+X_2}$ est d\'{e}finie sur $\mathbb{R}$ et continue sur $\mathbb{R}^*$ donc est bien une densit\'{e} de probabilit\'{e}. On en reconnait la forme d'une densit\'{e} de la loi $\Gamma(\nu_1+\nu_2,\lambda)$ donc on a n\'{e}cessairement :
+
+$$
+\int_{0}^{1}{u^{\nu_{1}-1}(1-u)^{\nu_{2}-1}}du=\frac{\Gamma(\nu_{1})\Gamma(\nu_{2})}{\Gamma(\nu_{1}+\nu_{2})}$$
+
+Ainsi, $X_{1}+X_{2}$ suit une loi $\Gamma(\nu_{1}+\nu_{2},\lambda)$.
+
+ Il suffit ensuite de remarquer que  la loi exponentielle de param\`{e}tre $\lambda$ est une loi $\Gamma(1,\lambda)$et que $ \Gamma(n)=(n-1)!$, donc $T_n$ suit une loi $\Gamma(n,\lambda)$ de densit\'{e} :
+
+$$
+f_n(x)=\frac{{\lambda}^n}{(n-1)!}{x^{n-1}}{e^{-{\lambda}x}\textbf{1}_{\mathbb{R}^+}}(x)
+$$
+
+\textbf{T.2} Soit $t>0$, on a:
+
+$$
+\mathbb{P}(N_t=n)=\mathbb{P}(T_n\leqslant t<T_n+{\tau}_{n+1})
+$$
+
+$T_n$ et $ \tau_{n+1}$ étant indépendantes, on écrit :
+$$
+\mathbb{P}(N_t=n)=\int_{\mathbb{R}^2}{\textbf{1}_{u \leqslant t \leqslant u+v}}\frac{{\lambda}^n}{(n-1)!}{u^{n-1}}{e^{-{\lambda}u}\textbf{1}_{\mathbb{R}^+}}(u){\lambda}e^{-{\lambda}v}\textbf{1}_{\mathbb{R}^+}(v)dudv
+$$
+
+On effectue le changement de variable : $\begin{pmatrix} p \\q \\ \end{pmatrix}=\begin{pmatrix} 1 & 0 \\1 & 1 \\ \end{pmatrix}\begin{pmatrix} u \\v \\ \end{pmatrix}$\\*
+
+Donc (p,q) est dans l'ensemble $\Delta=\lbrace{(x,y)/x\in \mathrm{R}^{+} et  y\geqslant x}\rbrace$
+
+$$
+\mathbb{P}(N_t=n)=\int_{\mathbb{R}^2}{\textbf{1}_{p\leqslant t < q}}\frac{{\lambda}^n}{(n-1)!}{p^{n-1}}{\lambda}e^{-{\lambda}q}\textbf{1}_{\Delta}(p,q)dpdq
+$$
+
+On obtient
+
+$$
+\mathbb{P}(N_t=n)= \frac{{\lambda}^n}{(n-1)!}\int_{0}^{t}{p^{n-1}}dp\int_{t}^{+\infty}{\lambda}e^{-{\lambda}q}dq
+= \frac{({\lambda}t)^n}{(n)!}e^{-{\lambda}t}
+$$
+
+Ainsi, $N_t$ suit une loi de Poisson de param\`{e}tre $\lambda{t}$.\\*
+
+
+\textbf{T.3}   Soient $(U_{1},U_{2},\ \cdots,\ U_{n})$ n variables al\'{e}atoire ind\'{e}pendantes de loi commune la loi uniforme sur $[0,t]$ et on note par $(U_{(1)},U_{(2)},\ \ldots,\ U_{(n)})$  le vecteur des statistiques d'ordre associ\'{e}es.
+
+On remarque d'abord que pour tout $(x_{1},\ \ldots,\ x_{n})\in \mathbb{R}^{n}$ tel que $x_{i}\neq x_{j}$ pour tout $1\leq i<j\leq n$ il existe une seule permutation $\sigma\in S_{n}$ telle que $x_{\sigma(1)}<x_{\sigma(2)}<\cdots<x_{\sigma(n)}$.
+
+On note aussi que l'ensemble $I=\lbrace \omega  \slash \exists i\neq j$ tq $ U_i(\omega)=U_j(\omega)\rbrace$ est de mesure nulle, puisque pour tout $1\leq i<j\leq n$,  $(U_i-U_j)$ est une variable à densité ($U_i$ et $U_j$ sont indépendantes), donc $P_{U_i-U_j}(0)=0$ et I est alors union dénombrable d'ensemble de mesure nulle.
+
+ on peut alors introduire une variable al\'{e}atoire $\hat{\sigma}_n$ de $\Omega$ dans $S_n$ vérifiant sur $\Omega\backslash $I: 
+$$
+\textbf{1}_{\hat{\sigma}_n=\sigma}=\textbf{1}_{U_{\sigma(1)}< U_{\sigma(2)}<\cdots<U_{\sigma(n)}}
+$$
+Et on la prolonge  par l'identité sur l'ensemble I, $\hat{\sigma}_n$ est égale à l'identité, et l'égalité précédente est presque s\^ure.
+
+et donc on a pour toute application $\varphi$
+
+$$
+\varphi(U_{(1)},\ \ldots,\ U_{(n)})=\sum_{\sigma\in S_{n}}\textbf{1}_{\hat{\sigma}_n=\sigma}\varphi(U_{\sigma(1)},\ \ldots,\ U_{\sigma(n)})
+$$
+
+En passant aux espérances : 
+
+$$
+\mathrm{E}[\varphi(U_{(1)},\ \ldots,\ U_{(n)})]=\sum_{\sigma\in S_{n}}\mathrm{E}[\textbf{1}_{U_{\sigma(1)}< U_{\sigma(2)}<\cdots<U_{\sigma(n)}}\varphi(U_{\sigma(1)},\ \ldots,\ U_{\sigma(n)})]
+$$
+Or, $U_{\sigma(i)}$ a m\^eme loi que $U_i$ indépendamment de $\sigma$, et avec $Card(S_n)=n!$, on peut écrire :
+
+$$
+\mathrm{E}[\varphi(U_{(1)},\ \ldots,\ U_{(n)})]= \int_{\mathbb{R}^{n}}\varphi(x_{1},\ \ldots,\ x_{n})\textbf{1}_{0\leq x_{1}<x_{2}<\cdots<x_{n}\leq t}\frac{n!}{t^n}\mathrm{d}x_{1}\cdots \mathrm{d}x_{n}
+$$
+
+Donc le vecteur $(U_{(1)},U_{(2)},\ \ldots,\ U_{(n)})$ admet pour densité :
+
+$$
+f(x_1,x_2,\ \ldots,x_n)=\frac{n!}{t^n}\textbf{1}_{0\leq x_{1}<x_{2}<\cdots<x_{n}\leq t}
+$$
+
+\textbf{T.4} Calculons la loi de $(T_{1},\ \ldots,\ T_{n})$ conditionnellement \`{a} $\{N_{t}=n\}$: soit $(s_{1},\ \ldots,\ s_{n})\in \mathbb{R}_{+}^{n}$ et $A \in$$\cal{B}$$((\mathbb{R}^+)^n)$
+
+$$
+\mathbb{P}((T_{1},\ \ldots,\ T_{n})\in A|N_{t}=n)=\frac{\mathbb{P}((T_{1},\ \ldots,\ T_{n})\in A,N_{t}=n)}{\mathbb{P}(N_{t}=n)}
+$$
+
+$$
+=\frac{n!e^{\lambda t}}{(\lambda t)^{n}}\int_{{\mathbb{R^{+}}}^{(n+1)}}
+\textbf{1}_{A}(s_1,..,s_1+....+s_n)\textbf{1}_(s_1+..s_n\leq t<s_1+..s_{n+1})
+{\lambda}^{n+1}e^{-{\lambda}(s_1+..+s_{n+1})}.ds_1ds_2....ds_{n+1}
+$$
+
+On effectue le changement de variable $t_i=\sum_{j=1}^{i}s_j$ et on obtient alors:
+
+$$
+\mathbb{P}((T_{1},\ \ldots,\ T_{n})\in A|N_{t}=n)=\frac{n!e^{\lambda t}}{(\lambda t)^{n}}\int_{{\Delta}^{n+1}}
+\textbf{1}_{A}(t_1,..t_n)\textbf{1}_(t_n\leq t<t_{n+1})
+{\lambda}^{n+1}e^{-{\lambda}t_{n+1}}dt_1dt_2....dt_{n+1}
+$$
+
+
+avec $\Delta^{n+1}=\lbrace (t_1,...t_n)\backslash  0\leq t_{1}<...<t_{n}\leq t\rbrace$
+On a donc :
+
+$$
+\mathbb{P}((T_{1},\ \ldots,\ T_{n})\in A|N_{t}=n)=\int_{\mathrm{R}^n}\textbf{1}_{A}(t_1,..t_n)\textbf{1}_{( 0\leq t_{1}<...<t_{n}\leq t\rbrace)}\frac{n!}{t^n}dt_1dt_2....dt_n(e^{\lambda t}\int_{t}^{+\infty}e^{-{\lambda}t_{n+1}}dt_{n+1})
+$$
+
+$$
+=\int_{\mathrm{R}^n}\textbf{1}_{A}(t_1,..t_n)\textbf{1}_{( 0\leq t_{1}<...<t_{n}\leq t\rbrace)}\frac{n!}{t^n}dt_1dt_2....dt_n
+$$
+
+Ainsi, la loi conditionelle de $(T_1,...,T_n) $ sachant $N_t=n$ est la m\^{e}me que celle de $(U_{(1)},U_{(2)}....U_{(n)})$,\\* et donc , elle est de densité :
+
+$$
+f(x_1,x_2,\ \ldots,x_n)=\frac{n!}{t^n}\textbf{1}_{0\leq x_{1}<x_{2}<\cdots<x_{n}\leq t}
+$$
+$$
+$$
+\newpage
+\textbf{S.1} Pour simuler le processus de Poisson, on implémente l'algorithme suivant en Scilab:
+\begin{lstlisting}
+lambda=3
+t=3
+
+Nt= grand(1,1,"poi",lambda*t) // génère une valeur de Nt suivant la loi de Poisson
+U=grand(Nt,1,"unf",0,t)   // génère Nt variables de loi uniforme sur [0,t]
+U=gsort(U,"g","i") // vecteur de statistiques d'ordre associées
+
+p=10000
+x=linspace(0,t,p) // une partition (xi) de [0,t] de pas 1/p
+
+for j=1:p
+    y(j)=0
+    for i=1:Nt
+      if x(j)>=U(i) then  // une suite (yi) avec yi=Card{j/ xi>=Uj }
+         y(j)=y(j)+1
+       end
+     end
+end
+plot2d(x,y)
+
+\end{lstlisting}
+
+\begin{center}
+\includegraphics[width=15cm]{S1.png}
+Simulation 1: Processus de Poisson, pour t=3 et $\lambda$=3
+\end{center}
+\newpage
+
+\subsection[Introduction à l'intégrale stochastiqe]{Introduction à l'intégrale stochastique par rapport à un processus de Poisson}
+\textbf{T.5}  $I_e(f)$ est combinaison lin\'eaire de variables al\'eatoires, donc c'est une variable al\'eatoire.\\
+
+Par linéarité de l'espérance : $E(I_e(f))=\sum_{i=0}^{K-1} a_i(E(\tilde{N}_{t_{i+1}})-E(\tilde{N}_{t_i}))$.\\
+
+D'après  T.2,  $\forall t\ge0,  N_t$ suit une loi de poisson de param\`etre $\lambda t$, donc $\tilde{N}_t$ est centr\'ee, donc $E(I_e(f))=0$.
+
+$$E(I_e(f)^2)=\sum_{i=0}^{K-1}a_i^2E((\tilde{N}_{t_{i+1}}-\tilde{N}_{t_i})^2)
+$$ 
+
+car les esp\'erances des produits crois\'es sont nulles.\\
+
+En effet si on a p et q tels que : $0\le p<q\le{K-1}$ Alors : $$ E((\tilde{N}_{t_{p+1}}-\tilde{N}_{t_p})(\tilde{N}_{t_{q+1}}-\tilde{N}_{t_q}))=E(\tilde{N}_{t_{p+1}}-\tilde{N}_{t_p})E(\tilde{N}_{t_{q+1}}-\tilde{N}_{t_q}) =0$$ car $\tilde{N}_{t_{p+1}} et\tilde{N}_{t_{p}}$ sont ind\'ependantes de $\tilde{N}_{t_{q+1}}-\tilde{N}_{t_q} $  si $p<p+1\le q$\\
+
+Comme $(\tilde{N}_{t_{i+1}}-\tilde{N}_{t_i})$ est centrée :  
+$$E((\tilde{N}_{t_{i+1}}-\tilde{N}_{t_i})^2)=var(\tilde{N}_{t_{i+1}}-\tilde{N}_{t_i})$$
+$$=var(N_{t_{i+1}}-N_{t_i})=\lambda(t_{i+1}-{t_i})$$
+(car ${N}_{t_{i+1}}-{N}_{t_i} $ suit une loi de Poisson de param\`etre $\lambda(t_{i+1}-{t_i})) $\\
+
+Finalement : 
+
+$$E(I_e(f)^2)=\lambda \sum_{i=0}^{K-1}a_i^2(t_{i+1}-{t_i})=\lambda \|f\|_2^2$$
+
+\textbf{T.6}  
+ $\mathcal{H}$ est dense dans $L^2(\mathbb{R}^+,ds)$.\\
+
+ Soit f$\in L^2(\mathbb{R}^+,ds), et  (f_n)_{n\ge 0}$ une suite de $\mathcal{H}$ qui converge vers f, dans $L^2(\mathbb{R}^+,ds)$.\\
+En particulier, $ (f_n)_{n\ge 0}$ est de Cauchy dans $L^2(\mathbb{R}^+,ds)$, donc :
+ $$E[(I_e(f_p)-I_e(f_q))^2]=E[(I_e(f_p-f_q)^2]=\lambda\|f_p-f_q\|_2^2$$
+d'où $(I_e(f_n))_{n \ge 0}$ est de Cauchy dans $L^2(\Omega,\mathcal{F},P)$, qui est complet, donc elle converge. Notons $I_e(f) $ sa limite dans cet espace.\\
+ Cette limite est bien d\'efinie, car si on prend deux suites $ (f_n)_{n\ge 0}$ et $ (g_n)_{n\ge 0}$ de $\mathcal{H}$ qui convergent vers f, dans $L^2(\mathbb{R}^+,ds)$ on a :
+ $$E[(I_e(f_n)-I_e(g_n))^2]=E[(I_e(f_n-g_n)^2]=\lambda\|f_n-g_n\|_2^2$$
+ donc on vient de montrer que $I_e(f_n)$ et $I_e(g_n)$ convergent, et elles ont la m\^eme limite dans $L^2(\Omega,\mathcal{F},P)$.\\
+Ainsi, $I_e(f)$ est bien d\'efinie\\
+
+ Par continuit\'e des normes dans les epaces de d\'epart et d'arriv\'ee, on a :\\
+ $\forall f \in L^2(\mathbb{R}^+,ds)$  $E(I(f)^2)=\lambda \|f\|_2^2$\\
+ Cette relation implique la continuit\'e de $I_e$. Et donc $I(f)= lim _{n->\infty} I_e(f_n)$ dans $L^2(\Omega,\mathcal{F},P)$, ce qui suffit pour montrer l'unicit\'e.
+ \subsection[Equations différentielles stochastiques]{Résolution numérique des équations différentielles stochastiques par processus de Poisson}
+\textbf{T.7}
+ Si $f\in \mathcal{H}$ alors $ E(I(f))=0$, car $\forall t \ge 0 : $  $\tilde{N}_t$ est centr\'ee.\\
+ Soit f$\in L^2(\mathbb{R}^+,ds), et (f_n)_{n\ge 0}$ une suite de $\mathcal{H}$ qui converge vers f, dans $L^2(\mathbb{R}^+,ds)$.
+ $$|E(I(f))|=|E(I(f-f_n))| \le \sqrt{E(I(f-f_n)^2)}=\sqrt{\lambda} \|f-f_n\|_2$$ car  $L^2(\Omega,\mathcal{F},P)$ est un espace de probabilit\'es.\\
+ D'où $lim_{n->\infty}\|f-f_n\|_2=0$ et donc : $E(I(f))=0$, $\forall f \in L^2(\mathbb{R}^+,ds)$.
+
+ \subsubsection[Exponentielle stochastiqe]{Exponentielle stochastiqe de Doléans-Dade}
+\textbf{T.8}  Pour $t \in [t_i,t_{i+1}[$, l'\'equation s'\'ecrit : 
+ $$dX_t=-\lambda \sigma X_t dt$$ donc sur $[t_i; t_{i+1}]$:
+ $$X_t=X_{t_i} e^{-\lambda \sigma (t-t_i)} \hspace{1cm} (*)$$ On en d\'eduit que : $$X{t_{i+1}^-}=X_{t_i}e^{-\lambda \sigma (t_{i+1}-t_i)}$$ Donc:\\
+ $$X{t_{i+1}}=(\sigma + 1) X_{t_i}e^{-\lambda \sigma (t_{i+1}-t_i)}$$
+ \\On obtient : 
+ $$X_{N_t}= (\sigma + 1)^{N_t} x e^{-\lambda \sigma N_t}$$ (car $t_0=0$ et $X_0=x$)\\
+ Et en r\'eappliquant (*), on a : 
+ $$X_t=X_{N_t} e^{-\lambda \sigma (t-N_t)}$$ \\
+ Ce qui donne : 
+ $$X_t=(\sigma + 1)^{N_t} x e^{-\lambda \sigma t}$$
+ 
+ 
+\textbf{S.2}
+\begin{lstlisting}
+t=4
+sigma = 1
+lambda = 2
+x0 = 1
+Nt=grand(1,1,"poi",lambda*t)
+p=10000
+x=linspace(0,t,p)
+U=grand(Nt,1,"unf",0,t)
+U=gsort(U,"g","i")
+
+for j=1:p
+    y(j)=0
+    for i=1:Nt
+      if x(j)>=U(i) then 
+         y(j)=y(j)+1
+       end
+    end
+end
+   
+for j=1:p
+      z(j)=x0*exp(-lambda*sigma*x(j))*(1+sigma)^y(j)
+end
+plot2d(x,z)
+\end{lstlisting}
+
+\begin{center}
+\includegraphics[width=17cm]{S2.png}
+Simulation 2: Exponentielle stochastiqe de Doléans-Dade, pour t=4 et $\lambda$=2 et $\sigma=1$
+\end{center}
+
+ \subsubsection[Une équation plus générale]{Une équation plus générale}
+
+\textbf{S.3}
+\begin{lstlisting}
+t=3
+lambda = 3
+x0 = 1
+p=1000
+Nt= grand(1,1,"poi",lambda*t) // génère une valeur de Nt suivant la loi de Poisson
+U=grand(Nt,1,"unf",0,t)   // génère Nt variables de loi uniforme sur [0,t]
+U=gsort(U,"g","i") // vecteur de statistiques d'ordre associées
+
+function yprim = g (t,y)
+  yprim = -lambda*(2+cos(y))
+endfunction
+
+yU(1)=ode(x0,0,U(1),g) //résolution de l'ED y'=-lambda*f(y)
+yU(1)=yU(1) + 2 + cos(yU(1)) // on ajoute le saut Delta(X)=2+cos(X_ti)
+for j=2:Nt
+  yU(j)=ode(yU(j-1),U(j-1),U(j),g)
+  yU(j)=yU(j) - g(0,yU(j)) /lambda
+end  
+
+x=linspace(0,t,p)
+for j=1:p
+    N(j)=0
+    for i=1:Nt
+      if x(j)>=U(i) then
+         N(j)=N(j)+1
+       end
+     end
+end
+
+for j=1:p
+  if N(j)==0 then 
+    z(j)=ode(x0,0,x(j),g) // si N(ti)=0, on initialise
+  else
+    z(j)=ode(yU(N(j)),U(N(j)),x(j),g)
+  end
+end
+plot2d(x,z)
+\end{lstlisting}
+\begin{center}
+\includegraphics[width=16cm]{S3.png}
+Simulation 3: Quelques trajectoires sur $[0,3]$ avec  $\lambda$=3
+\end{center}
+
+
+\textbf{S.4}
+\begin{lstlisting}
+t=3
+lambda = 3
+x0 = 1
+p=40
+Nb=10000
+for j=1:p 
+  z(j)=0
+end
+  
+function yprim = g (t,y)
+    yprim = -lambda*(2+cos(y))
+endfunction
+for i=1:Nb
+  Nt=grand(1,1,"poi",lambda*t)
+  U=grand(Nt,1,"unf",0,t)
+  U=gsort(U,"g","i")
+  
+  yU(1)=ode(x0,0,U(1),g)
+  yU(1)=yU(1) + 2 + cos(yU(1))
+  for j=2:Nt
+    yU(j)=ode(yU(j-1),U(j-1),U(j),g)
+    yU(j)=yU(j) - g(0,yU(j)) /lambda
+  end  
+
+  x=linspace(0,t,p)
+  for j=1:p
+    N(j)=0
+    for i=1:Nt
+      if x(j)>=U(i) then
+         N(j)=N(j)+1
+       end
+     end
+  end
+ 
+  for j=1:p
+    if N(j)==0 then 
+      z(j)=z(j)+ode(x0,0,x(j),g)
+    else
+      z(j)=z(j)+ode(yU(N(j)),U(N(j)),x(j),g)
+    end
+  end
+end
+for j=1:p 
+  z(j)=z(j) / Nb
+end 
+
+disp(z)
+\end{lstlisting}
+
+\begin{center}
+\includegraphics[width=16cm]{S4.png}
+Simulation 4: Estimation de $E[X_t]$  sur $[0,3]$ avec  $\lambda$=3 et un pas $\delta=\frac{t}{40}$
+\end{center}
+À t=0, on a $X_t=X_0=1$, les espérance estimées restent proches de 1 (dans l'intervalle [0.8; 1.2]). Or, en prenant la moyenne des valeurs estimées de $E[X_t]$ on remarque qu'elle est proche de 1. Intuitivement, on constate sur le graphique une "pseudo symétrie" par rapport à y=1. Numériquement, le tableau ci-dessous donne la moyenne de 10000 estimations, avec une partition de $[0,t]$ de pas $\delta=\frac{t}{40}$.
+$$
+$$
+\begin{center}
+\begin{tabular}{|*{8}{c|}}
+  \hline
+   $0$    &   1		      & $t_{10}$ &    0.9984299  &	$t_{20}$ &   0.9637553  & $t_{31}$ &    0.9833788  \\
+\hline
+   $t_1$ &   1.0057748  & $t_{11}$ &    0.9977193  &	$t_{21}$ &   0.9634537  & $t_{32}$ &    0.9901677  \\ 
+\hline
+   $t_2$ &   0.9974612  & $t_{12}$ &    0.9969266  &	$t_{22}$ &   0.9579523  & $t_{33}$ &   0.9899232  \\ 
+\hline
+   $t_3$ &   0.9970282  & $t_{13}$ &    0.9930572  &	$t_{23}$ &   0.9537586  & $t_{34}$ &   0.9813223  \\    
+\hline
+   $t_4$ &   1.0064085  & $t_{14}$ &    0.9899419  &	$t_{25}$ &   0.9579033  & $t_{35}$ &   0.9870088  \\ 
+\hline
+   $t_5$ &   1.0084435  & $t_{15}$ &    0.9843816  &	$t_{26}$ &   0.9558332  & $t_{36}$ &   0.9866260  \\ 
+\hline
+   $t_6$ &   0.9981050  & $t_{16}$ &    0.9728425  &	$t_{27}$ &   0.9769591  & $t_{37}$ &  0.9881150  \\ 
+\hline
+   $t_7$ &   1.0060524  & $t_{17}$ &    0.9673937  &	$t_{28}$ &   0.9687480  & $t_{38}$ &   0.9864178  \\  
+\hline
+   $t_8$ &   1.004212    & $t_{18}$ &    0.9646382  &	$t_{29}$ &   0.9750980  & $t$ 	      &   0.9741230  \\ 
+\hline
+   $t_9$ &   0.9889190  & $t_{19}$ &    0.9728140  &	$t_{30}$ &   0.9822195  \\ 
+\hline
+\end{tabular}
+\end{center}
+ 
+
+\end{document}
